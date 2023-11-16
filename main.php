@@ -8,7 +8,8 @@
  * Author: ZeroOne
  * Author URI: https://github.com/mr0I
  * Text Domain: daily_omens
- * Domain Path: /i10n
+ * Domain Path: /l10n
  */
 defined('ABSPATH') or die('No script kiddies please!');
-define('DAILYOMENS_ROOTDIR', plugin_dir_path(__FILE__));
+
+require(plugin_dir_path(__FILE__) . 'setup.php');
