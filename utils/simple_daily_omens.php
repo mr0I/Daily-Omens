@@ -1,7 +1,9 @@
 <?php defined('ABSPATH') or die('No script kiddies please!');
 require_once(DAILYOMENS_ROOTDIR . 'env.php');
 
-
+/**
+ * 
+ */
 function daily_simple_omen_callback()
 {
     $token = $_GET['token'] ?? '';

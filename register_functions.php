@@ -1,7 +1,7 @@
 <?php defined('ABSPATH') or die('No script kiddies please!');
 
 
-function dailyomens_activate_function()
+function dailyomens_activate_function(): void
 {
     //require(DAILYOMENS_ROOTDIR . 'helpers/db.php');
 
@@ -9,7 +9,7 @@ function dailyomens_activate_function()
     flush_rewrite_rules();
 }
 
-function dailyomens_deactivate_function()
+function dailyomens_deactivate_function(): void
 {
     flush_rewrite_rules();
 }

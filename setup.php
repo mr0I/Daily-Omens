@@ -3,9 +3,9 @@
 
 class Setup
 {
-    private $pluginVersion;
+    private string $pluginVersion;
 
-    public function __construct($plugin_version)
+    public function __construct(string $plugin_version)
     {
         $this->pluginVersion = $plugin_version;
     }
@@ -16,7 +16,7 @@ class Setup
     //     error_log('init</br>');
     //     $self->defineGlobals();
     // }
-    public function init()
+    public function init(): void
     {
         error_log('init</br>');
         $this->defineGlobals();
@@ -24,7 +24,7 @@ class Setup
         $this->enqueueScripts();
     }
 
-    private function defineGlobals()
+    private function defineGlobals(): void
     {
         define('DAILYOMENS_ROOTDIR', plugin_dir_path(__FILE__));
         define('DAILYOMENS_ROOTURL', plugin_dir_url(__FILE__));
@@ -34,14 +34,14 @@ class Setup
         define('DAILYOMENS_SITE_CSS', DAILYOMENS_ROOTURL . 'site/static/css/');
     }
 
-    private function enqueueScripts()
+    private function enqueueScripts(): void
     {
         add_action('wp_enqueue_scripts', function () {
             wp_enqueue_style('daily_omens_main_styles', DAILYOMENS_SITE_CSS . 'styles.css', array(), $this->pluginVersion);
         });
     }
 
-    private function setupPlugin()
+    private function setupPlugin(): void
     {
         add_action('plugins_loaded', function () {
             load_plugin_textdomain('daily_omens', false, basename(DAILYOMENS_ROOTDIR) . '/l10n/');

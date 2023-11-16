@@ -12,7 +12,7 @@ interface ConstantOmen
 
 class SimpleOmen implements DailyOmen
 {
-    public function registerRestApi()
+    public function registerRestApi(): void
     {
         add_action('rest_api_init', function () {
             register_rest_route(
@@ -39,7 +39,7 @@ class SimpleOmen implements DailyOmen
 
 class ProphetsOmen implements ConstantOmen
 {
-    public function addShortCode()
+    public function addShortCode(): void
     {
         add_action('init', function () {
             if (!shortcode_exists('prophets_omen')) {

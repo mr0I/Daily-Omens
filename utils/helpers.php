@@ -1,7 +1,10 @@
 <?php defined('ABSPATH') or die('No script kiddies please!');
 
-
-function validateRestApiToken($token, $password, $type)
+/**
+ * @param string $token, string $password, string $type
+ * @return boolean
+ */
+function validateRestApiToken(string $token, string $password, string $type)
 {
     $iv_size    = openssl_cipher_iv_length(AES_METHOD);
     $data       = explode(":", $token);
