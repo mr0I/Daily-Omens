@@ -29,6 +29,7 @@ class Setup
         define('DAILYOMENS_ROOTDIR', plugin_dir_path(__FILE__));
         define('DAILYOMENS_ROOTURL', plugin_dir_url(__FILE__));
         define('DAILYOMENS_INC', DAILYOMENS_ROOTDIR . 'includes/');
+        define('DAILYOMENS_UTILS', DAILYOMENS_ROOTDIR . 'utils/');
         define('DAILYOMENS_TEMPLATES', DAILYOMENS_ROOTDIR . 'site/templates/');
         define('DAILYOMENS_SITE_CSS', DAILYOMENS_ROOTURL . 'site/static/css/');
     }
@@ -52,6 +53,8 @@ class Setup
         register_deactivation_hook(__FILE__, 'dailyomens_deactivate_function');
 
         require_once(DAILYOMENS_INC . 'shortcodes.php');
+        require_once(DAILYOMENS_UTILS . 'simple_daily_omens.php');
+        require_once(DAILYOMENS_UTILS . 'helpers.php');
         require_once(DAILYOMENS_INC . 'omens.php');
 
         if (is_admin()) {

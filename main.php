@@ -12,5 +12,7 @@
  */
 defined('ABSPATH') or die('No script kiddies please!');
 define('IS_DEV', true);
+define('AES_METHOD', 'aes-256-cbc');
+
 
 require(plugin_dir_path(__FILE__) . 'setup.php');

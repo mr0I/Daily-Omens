@@ -14,7 +14,26 @@ class SimpleOmen implements DailyOmen
 {
     public function registerRestApi()
     {
-        return 'SimpleOmen';
+        add_action('rest_api_init', function () {
+            register_rest_route(
+                'plugins/v1',
+                'daily_simple_omen',
+                array(
+                    'methods' =>   WP_REST_SERVER::READABLE,
+                    'callback' => "daily_simple_omen_callback"
+                ),
+                false
+            );
+            register_rest_route(
+                'plugins/v1',
+                'daily_simple_omen/fixed_post',
+                array(
+                    'methods' =>   WP_REST_SERVER::READABLE,
+                    'callback' => "fixed_daily_post_callback"
+                ),
+                false
+            );
+        });
     }
 }
 
@@ -31,8 +50,11 @@ class ProphetsOmen implements ConstantOmen
 }
 
 $simpleOmen = new SimpleOmen();
+$simpleOmen->registerRestApi();
+
 $prophetsOmen = new ProphetsOmen();
 $prophetsOmen->addShortCode();
+
 // wp_die(json_encode([
 //     '1' => $simpleOmen->registerRestApi(),
 //     '2' => $prophetsOmen->print()
