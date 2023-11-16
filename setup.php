@@ -24,6 +24,13 @@ class Setup
     private function defineGlobals()
     {
         define('DAILYOMENS_ROOTDIR', plugin_dir_path(__FILE__));
+        define('DAILYOMENS_INC', DAILYOMENS_ROOTDIR . 'includes/');
+        define('DAILYOMENS_TEMPLATES', DAILYOMENS_ROOTDIR . 'site/templates/');
+    }
+
+    private function enqueueScripts()
+    {
+        //
     }
 
     private function setupPlugin()
@@ -36,7 +43,9 @@ class Setup
         include(DAILYOMENS_ROOTDIR . 'register_functions.php');
         register_activation_hook(__FILE__, 'dailyomens_activate_function');
         register_deactivation_hook(__FILE__, 'dailyomens_deactivate_function');
-        // include(COFFEEOMEN_INC . 'shortcodes.php');
+
+        require_once(DAILYOMENS_INC . 'shortcodes.php');
+        require_once(DAILYOMENS_INC . 'omens.php');
 
         if (is_admin()) {
             error_log('is_admin</br>');
@@ -49,5 +58,5 @@ class Setup
 }
 
 $dailyOmen = new Setup();
-// Setup::init();
 $dailyOmen->init();
+// Setup::init();
