@@ -1,0 +1,5 @@
+// sass --watch site/static/sass/main.scss:site/static/css/styles.css --style compressed
+
+@import "partials/base";
+@import "partials/styles";
+@import "partials/responsive";

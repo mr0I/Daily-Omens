@@ -11,5 +11,6 @@
  * Domain Path: /l10n
  */
 defined('ABSPATH') or die('No script kiddies please!');
+define('IS_DEV', true);
 
 require(plugin_dir_path(__FILE__) . 'setup.php');

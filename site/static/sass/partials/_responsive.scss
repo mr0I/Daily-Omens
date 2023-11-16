@@ -1,0 +1,12 @@
+@media screen and (max-width: 600px) {
+    .horoscope {
+        max-width: 100%;
+
+        .horoscope-content {
+            p.horoscope-content__aye {
+                padding: 0 6px;
+            }
+
+        }
+    }
+}

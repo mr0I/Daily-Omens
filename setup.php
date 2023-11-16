@@ -3,9 +3,11 @@
 
 class Setup
 {
-    public function __construct()
+    private $pluginVersion;
+
+    public function __construct($plugin_version)
     {
-        // $this->var = $var;
+        $this->pluginVersion = $plugin_version;
     }
 
     // public static function init(Setup $self)
@@ -19,18 +21,23 @@ class Setup
         error_log('init</br>');
         $this->defineGlobals();
         $this->setupPlugin();
+        $this->enqueueScripts();
     }
 
     private function defineGlobals()
     {
         define('DAILYOMENS_ROOTDIR', plugin_dir_path(__FILE__));
+        define('DAILYOMENS_ROOTURL', plugin_dir_url(__FILE__));
         define('DAILYOMENS_INC', DAILYOMENS_ROOTDIR . 'includes/');
         define('DAILYOMENS_TEMPLATES', DAILYOMENS_ROOTDIR . 'site/templates/');
+        define('DAILYOMENS_SITE_CSS', DAILYOMENS_ROOTURL . 'site/static/css/');
     }
 
     private function enqueueScripts()
     {
-        //
+        add_action('wp_enqueue_scripts', function () {
+            wp_enqueue_style('daily_omens_main_styles', DAILYOMENS_SITE_CSS . 'styles.css', array(), $this->pluginVersion);
+        });
     }
 
     private function setupPlugin()
@@ -57,6 +64,8 @@ class Setup
     }
 }
 
-$dailyOmen = new Setup();
+$pluginVersion = boolval(IS_DEV) ? time() : (get_plugin_data(__FILE__, false))['Version'];
+
+$dailyOmen = new Setup($pluginVersion);
 $dailyOmen->init();
 // Setup::init();
