@@ -20,8 +20,8 @@ class Setup
     {
         error_log('init</br>');
         $this->defineGlobals();
-        $this->setupPlugin();
         $this->enqueueScripts();
+        $this->setupPlugin();
     }
 
     private function defineGlobals(): void
@@ -31,13 +31,23 @@ class Setup
         define('DAILYOMENS_INC', DAILYOMENS_ROOTDIR . 'includes/');
         define('DAILYOMENS_UTILS', DAILYOMENS_ROOTDIR . 'utils/');
         define('DAILYOMENS_TEMPLATES', DAILYOMENS_ROOTDIR . 'site/templates/');
+        define('DAILYOMENS_ADMIN', DAILYOMENS_ROOTDIR . 'admin/');
+        define('DAILYOMENS_SITE', DAILYOMENS_ROOTDIR . 'site/');
         define('DAILYOMENS_SITE_CSS', DAILYOMENS_ROOTURL . 'site/static/css/');
+        define('PROPHETS_OMEN_TABLE', 'prophets_omen');
     }
 
     private function enqueueScripts(): void
     {
         add_action('wp_enqueue_scripts', function () {
             wp_enqueue_style('daily_omens_main_styles', DAILYOMENS_SITE_CSS . 'styles.css', array(), $this->pluginVersion);
+
+            // if (is_single() || is_page()) {
+            //     global $post;
+            //     if (has_shortcode($post->post_content, 'woopi_error_msg')) {
+            //         wp_enqueue_style('woopi-shortcode-styles', WOOPI_SITE_CSS . 'shortcode_styles.css', array(), $pluginVersion);
+            //     }
+            // }
         });
     }
 
@@ -47,19 +57,14 @@ class Setup
             load_plugin_textdomain('daily_omens', false, basename(DAILYOMENS_ROOTDIR) . '/l10n/');
         });
 
-        /** Inits */
-        include(DAILYOMENS_ROOTDIR . 'register_functions.php');
-        register_activation_hook(__FILE__, 'dailyomens_activate_function');
-        register_deactivation_hook(__FILE__, 'dailyomens_deactivate_function');
-
         require_once(DAILYOMENS_INC . 'shortcodes.php');
         require_once(DAILYOMENS_UTILS . 'simple_daily_omens.php');
         require_once(DAILYOMENS_UTILS . 'helpers.php');
         require_once(DAILYOMENS_INC . 'omens.php');
+        require_once(DAILYOMENS_SITE . 'wp_ajax.php');
 
         if (is_admin()) {
             error_log('is_admin</br>');
-
             // require_once(COFFEEOMEN_ADMIN . "admin_process.php");
             // require_once(COFFEEOMEN_ADMIN . 'admin_ajax.php');
         }

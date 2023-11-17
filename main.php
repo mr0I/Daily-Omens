@@ -14,5 +14,8 @@ defined('ABSPATH') or die('No script kiddies please!');
 define('IS_DEV', true);
 define('AES_METHOD', 'aes-256-cbc');
 
+include(plugin_dir_path(__FILE__) . 'register_functions.php');
+register_activation_hook(__FILE__, 'dailyomens_activate_function');
+register_deactivation_hook(__FILE__, 'dailyomens_deactivate_function');
 
 require(plugin_dir_path(__FILE__) . 'setup.php');
