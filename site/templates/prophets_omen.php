@@ -40,6 +40,6 @@
     };
 </script>
 <?php
-$pluginVersion = boolval(IS_DEV) ? time() : (get_plugin_data(__FILE__, false))['Version'];
+$pluginVersion = boolval(DOMENS_IS_DEV) ? time() : (get_plugin_data(__FILE__, false))['Version'];
 ?>
 <script src="<?= plugin_dir_url(__FILE__) . '../static/js_obfuscated/po_script.js?ver=' . $pluginVersion  ?>" defer></script>

@@ -34,6 +34,7 @@ class Setup
         define('DAILYOMENS_ADMIN', DAILYOMENS_ROOTDIR . 'admin/');
         define('DAILYOMENS_SITE', DAILYOMENS_ROOTDIR . 'site/');
         define('DAILYOMENS_SITE_CSS', DAILYOMENS_ROOTURL . 'site/static/css/');
+        define('OMENS_LOGGER_TABLE', 'omens_logger');
         define('PROPHETS_OMEN_TABLE', 'prophets_omen');
     }
 
@@ -72,7 +73,7 @@ class Setup
     }
 }
 
-$pluginVersion = boolval(IS_DEV) ? time() : (get_plugin_data(__FILE__, false))['Version'];
+$pluginVersion = boolval(DOMENS_IS_DEV) ? time() : (get_plugin_data(__FILE__, false))['Version'];
 
 $dailyOmen = new Setup($pluginVersion);
 $dailyOmen->init();

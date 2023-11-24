@@ -5,13 +5,13 @@
  * Plugin URI:  
  * Description: افزونه انتشار خودکار فال روزانه
  * Version: 1.0.0
- * Author: ZeroOne
+ * Author: IO
  * Author URI: https://github.com/mr0I
  * Text Domain: daily_omens
  * Domain Path: /l10n
  */
 defined('ABSPATH') or die('No script kiddies please!');
-define('IS_DEV', true);
+define('DOMENS_IS_DEV', true);
 define('AES_METHOD', 'aes-256-cbc');
 
 include(plugin_dir_path(__FILE__) . 'register_functions.php');
