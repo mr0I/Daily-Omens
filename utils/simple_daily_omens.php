@@ -19,17 +19,13 @@ function daily_simple_omen_callback()
     }
 
     // Check if post should published yet or not
-    global $wpdb;
-    $omensLoggerTable = $wpdb->prefix . OMENS_LOGGER_TABLE;
-    // $log = $wpdb->prepare($wpdb->get_var(""));
-    // $result = shoudDailyOmenPublish();
-    // if (!$result) {
-    //     wp_send_json([
-    //         'success' => false,
-    //         'post_published' => 'nup'
-    //     ], 400);
-    //     exit;
-    // }
+    $result = shoudDailyOmenPublish();
+    if (!$result) {
+        wp_send_json_error([
+            'msg' => 'Can not publish again!'
+        ], 400);
+        exit;
+    }
 
     // Publish the post
     // $resetOmens = function ($wpdb, $table) {
@@ -51,7 +47,7 @@ function daily_simple_omen_callback()
 
 
     wp_send_json_success([
-        'msg' => $postTitle,
+        'msg' => $result,
     ], 200);
 }
 

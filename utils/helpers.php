@@ -22,7 +22,7 @@ if (!function_exists('validateRestApiToken')) {
         $reqToken   = openssl_decrypt($cipherText, AES_METHOD, $password, OPENSSL_RAW_DATA, $iv);
         $explode = explode(';', $reqToken);
 
-        if ($explode[1] !== $type || time() - $explode[0] > 60) {
+        if ($explode[1] !== $type || time() - $explode[0] > 60000) {
             return 0;
         }
         return 1;
@@ -53,5 +53,59 @@ if (!function_exists('getCurrentShamsiDate')) {
 
 
         return $date;
+    }
+}
+
+/**
+ * @param
+ */
+if (!function_exists('shoudDailyOmenPublish')) {
+    function shoudDailyOmenPublish()
+    {
+        global $wpdb;
+        $omensLoggerTable = $wpdb->prefix . OMENS_LOGGER_TABLE;
+
+        $tomorrowDate = strtotime(date('Ymd') . ' + 1 days');
+        $currentDateRow = $wpdb->get_row($wpdb->prepare("SELECT * FROM $omensLoggerTable WHERE date=%s", array(
+            $tomorrowDate
+        )));
+
+        if (!$currentDateRow) {
+            $insert =  $wpdb->insert($omensLoggerTable, [
+                'date' => $tomorrowDate,
+                'created_at' => date('Y-m-d H:i:s'),
+                'logs' => json_encode([
+                    'simple_daily' => 1
+                ])
+            ]);
+            if ($insert) return 1;
+        }
+
+        $existedLogs = json_decode($currentDateRow->logs, true);
+        $currentStatus = $existedLogs['simple_daily'];
+        if (!boolval($currentStatus)) {
+            if (!$existedLogs) {
+                $update = $wpdb->query($wpdb->prepare(
+                    "UPDATE $omensLoggerTable SET `logs` = JSON_OBJECT('simple_daily', 1) WHERE date=%s",
+                    array(
+                        $tomorrowDate
+                    )
+                ));
+                if ($update) return 1;
+            }
+
+            $update = $wpdb->query($wpdb->prepare("UPDATE $omensLoggerTable SET `logs` = JSON_SET(`logs`, '$.simple_daily',1) WHERE date=%s", array(
+                $tomorrowDate
+            )));
+            if ($update) return 1;
+        }
+
+        return 0;
+
+        // return array(
+        //     'cdr ' => $currentDateRow,
+        //     'el ' => $existedLogs,
+        //     'cs ' => $currentStatus
+        // );
     }
 }
