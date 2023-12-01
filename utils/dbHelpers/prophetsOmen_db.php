@@ -3,7 +3,7 @@
 // require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 
 global $wpdb;
-$prophetsOmenTable = $wpdb->prefix . PROPHETS_OMEN_TABLE;
+$prophetsOmenTable = $wpdb->prefix . DOPL_PROPHETS_OMENS_TABLE;
 
 $createHoroscopesTable =
   "

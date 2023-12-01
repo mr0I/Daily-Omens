@@ -2,7 +2,7 @@
 
 
 global $wpdb;
-$omensLoggerTable = $wpdb->prefix . OMENS_LOGGER_TABLE;
+$omensLoggerTable = $wpdb->prefix . DAILYOMENS_LOGGER_TABLE;
 
 $createOmensLoggerTbl = "
 CREATE TABLE $omensLoggerTable (

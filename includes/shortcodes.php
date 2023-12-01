@@ -9,3 +9,13 @@ if (!function_exists('prophetsOmenRender')) {
         return $content;
     }
 }
+
+if (!function_exists('simpleHoroscopeRender')) {
+    function simpleHoroscopeRender($atts = []): string
+    {
+        ob_start();
+        include(DAILYOMENS_TEMPLATES . 'simple_horoscope.php');
+        $content = ob_get_clean();
+        return $content;
+    }
+}

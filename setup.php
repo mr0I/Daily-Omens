@@ -34,8 +34,10 @@ class Setup
         define('DAILYOMENS_ADMIN', DAILYOMENS_ROOTDIR . 'admin/');
         define('DAILYOMENS_SITE', DAILYOMENS_ROOTDIR . 'site/');
         define('DAILYOMENS_SITE_CSS', DAILYOMENS_ROOTURL . 'site/static/css/');
-        define('OMENS_LOGGER_TABLE', 'omens_logger');
-        define('PROPHETS_OMEN_TABLE', 'prophets_omen');
+        define('DAILYOMENS_LOGGER_TABLE', 'omens_logger');
+        define('DOPL_PROPHETS_OMENS_TABLE', 'prophets_omen_tbl');
+        define('DOPL_SIMPLE_OMENS_TABLE', 'simple_omen_tbl');
+        define('DOPL_UNIQUE_SIMPLE_OMENS_TABLE', 'unique_simple_omen_tbl');
     }
 
     private function enqueueScripts(): void

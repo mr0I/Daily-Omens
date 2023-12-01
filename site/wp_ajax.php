@@ -12,7 +12,7 @@ function getProphetOmen_callback()
     }
 
     global $wpdb;
-    $tbl = $wpdb->prefix . PROPHETS_OMEN_TABLE;
+    $tbl = $wpdb->prefix . DOPL_PROPHETS_OMENS_TABLE;
     $horoscopesIdsArray = [];
     $getIdsQuery = $wpdb->prepare("SELECT id FROM $tbl");
     $horoscopesIds = $wpdb->get_results($getIdsQuery);

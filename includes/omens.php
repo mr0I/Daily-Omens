@@ -4,6 +4,7 @@
 interface DailyOmen
 {
     public function registerRestApi();
+    public function addShortCode();
 }
 interface ConstantOmen
 {
@@ -33,6 +34,15 @@ class SimpleOmen implements DailyOmen
                 ),
                 false
             );
+        });
+    }
+
+    public function addShortCode(): void
+    {
+        add_action('init', function () {
+            if (!shortcode_exists('simple_horoscope')) {
+                add_shortcode('simple_horoscope', 'simpleHoroscopeRender');
+            }
         });
     }
 }
