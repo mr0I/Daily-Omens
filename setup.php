@@ -4,10 +4,13 @@
 class Setup
 {
     private string $pluginVersion;
+    // private static int $count = 0; 
+
 
     public function __construct(string $plugin_version)
     {
         $this->pluginVersion = $plugin_version;
+        // self::$count = 10;
     }
 
     // public static function init(Setup $self)
@@ -26,6 +29,7 @@ class Setup
 
     private function defineGlobals(): void
     {
+        define('DAILYOMENS_PLUGIN_VERSION', $this->pluginVersion);
         define('DAILYOMENS_ROOTDIR', plugin_dir_path(__FILE__));
         define('DAILYOMENS_ROOTURL', plugin_dir_url(__FILE__));
         define('DAILYOMENS_INC', DAILYOMENS_ROOTDIR . 'includes/');
@@ -33,6 +37,7 @@ class Setup
         define('DAILYOMENS_TEMPLATES', DAILYOMENS_ROOTDIR . 'site/templates/');
         define('DAILYOMENS_ADMIN', DAILYOMENS_ROOTDIR . 'admin/');
         define('DAILYOMENS_SITE', DAILYOMENS_ROOTDIR . 'site/');
+        define('DAILYOMENS_SITE_STATIC', DAILYOMENS_ROOTURL . 'site/static/');
         define('DAILYOMENS_SITE_CSS', DAILYOMENS_ROOTURL . 'site/static/css/');
         define('DAILYOMENS_LOGGER_TABLE', 'omens_logger');
         define('DOPL_PROPHETS_OMENS_TABLE', 'prophets_omen_tbl');
@@ -76,7 +81,6 @@ class Setup
 }
 
 $pluginVersion = boolval(DOMENS_IS_DEV) ? time() : (get_plugin_data(__FILE__, false))['Version'];
-
 $dailyOmen = new Setup($pluginVersion);
 $dailyOmen->init();
 // Setup::init();

@@ -1,15 +1,15 @@
 <?php defined('ABSPATH') or die('No script kiddies please!');
 error_reporting(E_ALL & ~E_NOTICE);
 
-
-// require_once(DHPL_ROOTDIR . 'helpers/helpers.php');
+require_once(DAILYOMENS_UTILS . 'helpers.php');
 // $constants = require(DHPL_ROOTDIR . 'config/config.php');
 
 
 global $wpdb;
 $table = $wpdb->prefix . DOPL_UNIQUE_SIMPLE_OMENS_TABLE;
-$storageFile = file_get_contents(DHPL_ROOTDIR . 'storage/data.json', 'a');
+$storageFile = file_get_contents(DAILYOMENS_ROOTDIR . 'storage/simpleOmenMetadata.json', 'a');
 $data = json_decode($storageFile, true);
+
 
 $contentType = 'daily';
 if (!empty($atts[0])) {
@@ -55,14 +55,11 @@ $emojies = array_slice($emojies, 0, 12);
 $numbersArray = range(0, 11);
 shuffle($numbersArray);
 
-$hafezOmenUrl = empty(get_option('hafez_omen_url'))
-    ? 'https://setare.com/myapps/faal.php?niat=1'
-    : get_option('hafez_omen_url');
-
 $selectedOmens = $wpdb->get_results($wpdb->prepare(
     "SELECT * FROM $table WHERE post_id=%s",
     array($post->ID)
 ));
+
 ?>
 
 <link rel="stylesheet" href="<?= plugin_dir_url(__FILE__) . '../static/css/styles.css' ?>">
@@ -71,7 +68,7 @@ $selectedOmens = $wpdb->get_results($wpdb->prepare(
     <div class="daily-horoscope-content">
         <div class="daily-horoscope-content__sun">
             <figure>
-                <img src="<?= DHPL_STATIC . 'images/sun.png' ?>" alt="<?= __('Daily Horsocope Sun Position', 'daily_horoscope') ?>">
+                <img src="<?= DAILYOMENS_SITE_STATIC . 'images/sun.png' ?>" alt="<?= __('Daily Horsocope Sun Position', 'daily_horoscope') ?>">
             </figure>
             <p>
                 <strong><?= $data['sun_position'][$postDateMonth ?? '---'] ?></strong>
@@ -81,7 +78,7 @@ $selectedOmens = $wpdb->get_results($wpdb->prepare(
         <?php if (isset($data['moon_position'][$postDateMonth][$moonPositionKey])) : ?>
             <div class="daily-horoscope-content__moon">
                 <figure>
-                    <img src="<?= DHPL_STATIC . 'images/moon.png' ?>" alt="<?= __('Daily Horsocope Moon Position', 'daily_horoscope') ?>">
+                    <img src="<?= DAILYOMENS_SITE_STATIC . 'images/moon.png' ?>" alt="<?= __('Daily Horsocope Moon Position', 'daily_horoscope') ?>">
                 </figure>
                 <p>
                     <strong>
@@ -175,7 +172,7 @@ $selectedOmens = $wpdb->get_results($wpdb->prepare(
             $strengths = 'باهوش، قاطع، ماجراجو';
             $label = 'فروردین ماهی عزیز...';
             $omen = $selectedOmens[0]->farvardin;
-            include(DHPL_TEMPLATES_DIR . 'daily_horoscope_content_item.php');
+            include(DAILYOMENS_TEMPLATES . 'components/simple_horoscope_content_item.php');
 
             $index = 1;
             $id = 'm2';
@@ -188,7 +185,7 @@ $selectedOmens = $wpdb->get_results($wpdb->prepare(
             $strengths = 'سخت کوش، شجاع، صادق';
             $label = 'اردیبهشت ماهی عزیز...';
             $omen = $selectedOmens[0]->ordibehesht;
-            include(DHPL_TEMPLATES_DIR . 'daily_horoscope_content_item.php');
+            include(DAILYOMENS_TEMPLATES . 'components/simple_horoscope_content_item.php');
 
             $index = 2;
             $id = 'm3';
@@ -201,7 +198,7 @@ $selectedOmens = $wpdb->get_results($wpdb->prepare(
             $strengths = 'شوخ طبع، خوش صحبت، همه کاره';
             $label = 'خردادماهی عزیز...';
             $omen = $selectedOmens[0]->khordad;
-            include(DHPL_TEMPLATES_DIR . 'daily_horoscope_content_item.php');
+            include(DAILYOMENS_TEMPLATES . 'components/simple_horoscope_content_item.php');
 
             $index = 3;
             $id = 'm4';
@@ -214,7 +211,7 @@ $selectedOmens = $wpdb->get_results($wpdb->prepare(
             $strengths = 'خود آموز بودن، پرورش دادن';
             $label = 'تیرماهی عزیز...';
             $omen = $selectedOmens[0]->tir;
-            include(DHPL_TEMPLATES_DIR . 'daily_horoscope_content_item.php');
+            include(DAILYOMENS_TEMPLATES . 'components/simple_horoscope_content_item.php');
 
             $index = 4;
             $id = 'm5';
@@ -227,7 +224,7 @@ $selectedOmens = $wpdb->get_results($wpdb->prepare(
             $strengths = 'شجاعت، راستی، اعتماد به نفس بالا';
             $label = 'مردادماهی عزیز...';
             $omen = $selectedOmens[0]->mordad;
-            include(DHPL_TEMPLATES_DIR . 'daily_horoscope_content_item.php');
+            include(DAILYOMENS_TEMPLATES . 'components/simple_horoscope_content_item.php');
 
             $index = 5;
             $id = 'm6';
@@ -240,7 +237,7 @@ $selectedOmens = $wpdb->get_results($wpdb->prepare(
             $strengths = 'دقیق، منظم، کارآمد';
             $label = 'شهریورماهی عزیز...';
             $omen = $selectedOmens[0]->shahrivar;
-            include(DHPL_TEMPLATES_DIR . 'daily_horoscope_content_item.php');
+            include(DAILYOMENS_TEMPLATES . 'components/simple_horoscope_content_item.php');
 
             $index = 6;
             $id = 'm7';
@@ -253,7 +250,7 @@ $selectedOmens = $wpdb->get_results($wpdb->prepare(
             $strengths = 'سیاست مدار، جذاب';
             $label = 'مهرماهی عزیز...';
             $omen = $selectedOmens[0]->mehr;
-            include(DHPL_TEMPLATES_DIR . 'daily_horoscope_content_item.php');
+            include(DAILYOMENS_TEMPLATES . 'components/simple_horoscope_content_item.php');
 
             $index = 7;
             $id = 'm8';
@@ -266,7 +263,7 @@ $selectedOmens = $wpdb->get_results($wpdb->prepare(
             $strengths = 'قدرتمند بودن، سازگاری';
             $label = 'آبان ماهی عزیز...';
             $omen = $selectedOmens[0]->aban;
-            include(DHPL_TEMPLATES_DIR . 'daily_horoscope_content_item.php');
+            include(DAILYOMENS_TEMPLATES . 'components/simple_horoscope_content_item.php');
 
             $index = 8;
             $id = 'm9';
@@ -279,7 +276,7 @@ $selectedOmens = $wpdb->get_results($wpdb->prepare(
             $strengths = 'باهوش، قاطع، ماجراجو';
             $label = 'آذرماهی عزیز...';
             $omen = $selectedOmens[0]->azar;
-            include(DHPL_TEMPLATES_DIR . 'daily_horoscope_content_item.php');
+            include(DAILYOMENS_TEMPLATES . 'components/simple_horoscope_content_item.php');
 
             $index = 9;
             $id = 'm10';
@@ -292,7 +289,7 @@ $selectedOmens = $wpdb->get_results($wpdb->prepare(
             $strengths = 'منظم بودن، شکیبایی';
             $label = 'دی ماهی عزیز...';
             $omen = $selectedOmens[0]->dey;
-            include(DHPL_TEMPLATES_DIR . 'daily_horoscope_content_item.php');
+            include(DAILYOMENS_TEMPLATES . 'components/simple_horoscope_content_item.php');
 
             $index = 10;
             $id = 'm11';
@@ -305,7 +302,7 @@ $selectedOmens = $wpdb->get_results($wpdb->prepare(
             $strengths = 'انسان دوست، مدرن، تحلیل کننده';
             $label = 'بهمن ماهی عزیز...';
             $omen = $selectedOmens[0]->bahman;
-            include(DHPL_TEMPLATES_DIR . 'daily_horoscope_content_item.php');
+            include(DAILYOMENS_TEMPLATES . 'components/simple_horoscope_content_item.php');
 
             $index = 11;
             $id = 'm12';
@@ -318,11 +315,11 @@ $selectedOmens = $wpdb->get_results($wpdb->prepare(
             $strengths = 'آرمان گرایی، معنوی بودن';
             $label = 'اسفند ماهی عزیز...';
             $omen = $selectedOmens[0]->esfand;
-            include(DHPL_TEMPLATES_DIR . 'daily_horoscope_content_item.php');
+            include(DAILYOMENS_TEMPLATES . 'components/simple_horoscope_content_item.php');
             ?>
         </div>
     </div>
 </section>
 
 
-<script src="<?= plugin_dir_url(__FILE__) . '../static/js/scripts.js' . '?ver=' . $pluginVersion ?>" defer></script>
+<script src="<?= plugin_dir_url(__FILE__) . '../static/js_obfuscated/responsive_script.js' . '?ver=' . DAILYOMENS_PLUGIN_VERSION ?>" defer></script>

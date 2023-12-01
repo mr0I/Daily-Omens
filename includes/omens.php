@@ -61,6 +61,7 @@ class ProphetsOmen implements ConstantOmen
 
 $simpleOmen = new SimpleOmen();
 $simpleOmen->registerRestApi();
+$simpleOmen->addShortCode();
 
 $prophetsOmen = new ProphetsOmen();
 $prophetsOmen->addShortCode();

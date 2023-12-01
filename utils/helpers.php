@@ -58,6 +58,29 @@ if (!function_exists('getCurrentShamsiDate')) {
     }
 }
 
+if (!function_exists('convertToShamsiDate')) {
+    function convertToShamsiDate($format, $type, $date)
+    {
+        $format = $format ?? 'd-m-Y';
+        $type = $type ?? 'full';
+        $date = $date ?? 'now';
+
+        $parsiDate = new bn_parsidate();
+        switch ($type) {
+            case 'full':
+                $convertedDate = _convert_to_number($parsiDate->persian_date($format, $date));
+                break;
+            case 'month':
+                $convertedDate = intval(_convert_to_number($parsiDate->persian_date('m', $date)));
+                break;
+            default:
+                break;
+        }
+
+        return $convertedDate;
+    }
+}
+
 /**
  * @param
  */
