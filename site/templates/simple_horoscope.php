@@ -67,7 +67,7 @@ $selectedOmens = $wpdb->get_results($wpdb->prepare(
     <div class="daily-horoscope-content">
         <div class="daily-horoscope-content__sun">
             <figure>
-                <img src="<?= DAILYOMENS_SITE_STATIC . 'images/sun.png' ?>" alt="<?= __('Daily Horsocope Sun Position', 'daily_horoscope') ?>">
+                <img src="<?= DAILYOMENS_SITE_STATIC . 'images/daily_simple_omen/sun.png' ?>" alt="<?= __('Daily Horsocope Sun Position', 'daily_horoscope') ?>">
             </figure>
             <p>
                 <strong><?= $data['sun_position'][$postDateMonth ?? '---'] ?></strong>
@@ -77,7 +77,7 @@ $selectedOmens = $wpdb->get_results($wpdb->prepare(
         <?php if (isset($data['moon_position'][$postDateMonth][$moonPositionKey])) : ?>
             <div class="daily-horoscope-content__moon">
                 <figure>
-                    <img src="<?= DAILYOMENS_SITE_STATIC . 'images/moon.png' ?>" alt="<?= __('Daily Horsocope Moon Position', 'daily_horoscope') ?>">
+                    <img src="<?= DAILYOMENS_SITE_STATIC . 'images/daily_simple_omen/moon.png' ?>" alt="<?= __('Daily Horsocope Moon Position', 'daily_horoscope') ?>">
                 </figure>
                 <p>
                     <strong>

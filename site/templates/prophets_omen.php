@@ -4,7 +4,7 @@
     <div class="horoscope-content">
         <h2 class="horoscope-content__title"><?= esc_html('Prophets Horoscope', 'daily_omens') ?></h2>
         <figure>
-            <img src="<?= plugins_url('static/images/anbia_img.png', dirname(__FILE__)) ?>" alt="<?= esc_attr('Prophets Horoscope Picture', 'daily_omens') ?>">
+            <img src="<?= plugins_url('static/images/prophets_omen/anbia_img.png', dirname(__FILE__)) ?>" alt="<?= esc_attr('Prophets Horoscope Picture', 'daily_omens') ?>">
         </figure>
         <p class="horoscope-content__aye">
             بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ ﴿۱﴾

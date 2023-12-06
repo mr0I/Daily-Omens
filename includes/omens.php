@@ -59,12 +59,29 @@ class ProphetsOmen implements ConstantOmen
     }
 }
 
+class coffeeOmen implements ConstantOmen
+{
+    public function addShortCode(): void
+    {
+        add_action('init', function () {
+            if (!shortcode_exists('coffee_omen')) {
+                add_shortcode('coffee_omen', 'coffeeOmenRender');
+            }
+        });
+    }
+}
+
 $simpleOmen = new SimpleOmen();
 $simpleOmen->registerRestApi();
 $simpleOmen->addShortCode();
 
 $prophetsOmen = new ProphetsOmen();
 $prophetsOmen->addShortCode();
+
+$coffeeOmen = new CoffeeOmen();
+$coffeeOmen->addShortCode();
+
+
 
 // wp_die(json_encode([
 //     '1' => $simpleOmen->registerRestApi(),

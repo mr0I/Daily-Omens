@@ -15,13 +15,11 @@ class Setup
 
     // public static function init(Setup $self)
     // {
-    //     error_log();
-    //     error_log('init</br>');
     //     $self->defineGlobals();
     // }
     public function init(): void
     {
-        error_log('init</br>');
+        error_log('init...</br>');
         $this->defineGlobals();
         $this->enqueueScripts();
         $this->setupPlugin();
@@ -40,10 +38,12 @@ class Setup
         define('DAILYOMENS_SITE', DAILYOMENS_ROOTDIR . 'site/');
         define('DAILYOMENS_SITE_STATIC', DAILYOMENS_ROOTURL . 'site/static/');
         define('DAILYOMENS_SITE_CSS', DAILYOMENS_ROOTURL . 'site/static/css/');
+        define('DAILYOMENS_SITE_JS', DAILYOMENS_ROOTURL . 'site/static/js/');
         define('DAILYOMENS_LOGGER_TABLE', 'omens_logger');
         define('DOPL_PROPHETS_OMENS_TABLE', 'prophets_omen_tbl');
         define('DOPL_SIMPLE_OMENS_TABLE', 'simple_omen_tbl');
         define('DOPL_UNIQUE_SIMPLE_OMENS_TABLE', 'unique_simple_omen_tbl');
+        define('DOPL_COFFEE_OMENS_TABLE', 'coffee_omen_tbl');
     }
 
     private function enqueueScripts(): void
@@ -51,12 +51,17 @@ class Setup
         add_action('wp_enqueue_scripts', function () {
             wp_enqueue_style('daily_omens_main_styles', DAILYOMENS_SITE_CSS . 'styles.css', array(), $this->pluginVersion);
 
-            // if (is_single() || is_page()) {
-            //     global $post;
-            //     if (has_shortcode($post->post_content, 'woopi_error_msg')) {
-            //         wp_enqueue_style('woopi-shortcode-styles', WOOPI_SITE_CSS . 'shortcode_styles.css', array(), $pluginVersion);
-            //     }
-            // }
+            if (is_single() || is_page()) {
+                global $post;
+                if (has_shortcode($post->post_content, 'coffee_omen')) {
+                    wp_enqueue_script('daily_omens_coffee_script', DAILYOMENS_SITE_JS . 'coffeeOmen_script.js', array(), $this->pluginVersion, true);
+                    wp_localize_script('daily_omens_coffee_script', 'daily_omens_wp_ajax', array(
+                        'AJAXURL' => admin_url('admin-ajax.php'),
+                        'SECURITY' => wp_create_nonce('YDPagk5TQhIFlePOuPQY'),
+                        'REQUEST_TIMEOUT' => 30000
+                    ));
+                }
+            }
         });
     }
 
@@ -73,11 +78,9 @@ class Setup
         require_once(DAILYOMENS_SITE . 'wp_ajax.php');
 
         if (is_admin()) {
-            error_log('is_admin</br>');
             // require_once(COFFEEOMEN_ADMIN . "admin_process.php");
             // require_once(COFFEEOMEN_ADMIN . 'admin_ajax.php');
         }
-        error_log('setup</br>');
     }
 }
 

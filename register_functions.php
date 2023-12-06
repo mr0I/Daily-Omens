@@ -8,6 +8,7 @@ function dailyomens_activate_function(): void
     require(DAILYOMENS_UTILS . 'dbHelpers/omensLogger_db.php');
     require(DAILYOMENS_UTILS . 'dbHelpers/prophetsOmen_db.php');
     require(DAILYOMENS_UTILS . 'dbHelpers/dailySimpleOmen_db.php');
+    require(DAILYOMENS_UTILS . 'dbHelpers/coffeeOmen_db.php');
 
     //register_uninstall_hook(__FILE__, 'canldeHoroscopeUninstall');
     flush_rewrite_rules();

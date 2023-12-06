@@ -19,3 +19,13 @@ if (!function_exists('simpleHoroscopeRender')) {
         return $content;
     }
 }
+
+if (!function_exists('coffeeOmenRender')) {
+    function coffeeOmenRender($atts = []): string
+    {
+        ob_start();
+        include(DAILYOMENS_TEMPLATES . 'coffee_omen.php');
+        $content = ob_get_clean();
+        return $content;
+    }
+}

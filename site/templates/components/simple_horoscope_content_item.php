@@ -2,7 +2,7 @@
 
 <div id="<?= $id; ?>">
     <p class="month-title">
-        <img src="<?= DAILYOMENS_SITE_STATIC . "images/month_gifs/${gifName}.gif" ?>" alt="<?= 'فال روزانه ' . $monthName ?>">
+        <img src="<?= DAILYOMENS_SITE_STATIC . "images/daily_simple_omen/month_gifs/${gifName}.gif" ?>" alt="<?= 'فال روزانه ' . $monthName ?>">
         <strong><?= "فال روزانه متولدین $monthName"; ?></strong>
     </p>
 

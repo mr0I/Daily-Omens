@@ -37,7 +37,7 @@ class Feature_Image
                 default:
                     break;
             }
-            $img = imagecreatefromjpeg(DAILYOMENS_ROOTDIR . 'site/static/images/featured_images/simple_omen/' . $featuredImageName);
+            $img = imagecreatefromjpeg(DAILYOMENS_ROOTDIR . 'site/static/images/daily_simple_omen/featured_images/simple_omen/' . $featuredImageName);
             $fontSize = 44;
             $fontColor = imagecolorallocate($img, 255, 255, 255);
             $posX = 5;
@@ -56,7 +56,7 @@ class Feature_Image
             imagettftext($img, $fontSize, $angle, $centerX, $centerY, $fontColor, $font, $txt);
 
             $quality = 100;
-            $imagePath = DAILYOMENS_ROOTDIR . sprintf('site/static/images/featured_images/simple_omen/%s-tempImg.jpg', time());
+            $imagePath = DAILYOMENS_ROOTDIR . sprintf('site/static/images/daily_simple_omen/featured_images/simple_omen/%s-tempImg.jpg', time());
             imagejpeg($img, $imagePath, $quality);
             // Add featured image to post
             $imageName       = sprintf('simpleOmen-%s.jpg', time());
