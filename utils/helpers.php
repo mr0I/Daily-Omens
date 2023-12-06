@@ -58,6 +58,10 @@ if (!function_exists('getCurrentShamsiDate')) {
     }
 }
 
+/**
+ * @param string $format, string $type, date $date
+ * @return string 
+ */
 if (!function_exists('convertToShamsiDate')) {
     function convertToShamsiDate($format, $type, $date)
     {
@@ -82,10 +86,10 @@ if (!function_exists('convertToShamsiDate')) {
 }
 
 /**
- * @param
+ * @return bool 
  */
 if (!function_exists('shoudDailyOmenPublish')) {
-    function shoudDailyOmenPublish()
+    function shoudDailyOmenPublish($omen_type)
     {
         global $wpdb;
         $omensLoggerTable = $wpdb->prefix . DAILYOMENS_LOGGER_TABLE;
@@ -100,18 +104,19 @@ if (!function_exists('shoudDailyOmenPublish')) {
                 'date' => $tomorrowDate,
                 'created_at' => date('Y-m-d H:i:s'),
                 'logs' => json_encode([
-                    'simple_daily' => 1
+                    $omen_type => 1
                 ])
             ]);
             if ($insert) return 1;
         }
 
         $existedLogs = json_decode($currentDateRow->logs, true);
+        // if logs is null
         if (!$existedLogs) {
             $updatedAt = date('Y-m-d H:i:s');
             $update = $wpdb->query($wpdb->prepare(
                 "UPDATE $omensLoggerTable 
-                SET `logs` = JSON_OBJECT('simple_daily', 1), `updated_at`='$updatedAt'
+                SET `logs` = JSON_OBJECT('$omen_type', 1), `updated_at`='$updatedAt'
                 WHERE date=%s",
                 array(
                     $tomorrowDate
@@ -120,11 +125,12 @@ if (!function_exists('shoudDailyOmenPublish')) {
             if ($update) return 1;
         }
 
-        $currentStatus = $existedLogs['simple_daily'];
+        $currentStatus = $existedLogs[$omen_type];
+        // if logs json is 0
         if (!boolval($currentStatus)) {
             $updatedAt = date('Y-m-d H:i:s');
             $update = $wpdb->query($wpdb->prepare("UPDATE $omensLoggerTable 
-            SET `logs` = JSON_SET(`logs`, '$.simple_daily',1), `updated_at`='$updatedAt'
+            SET `logs` = JSON_SET(`logs`, '$.$omen_type',1), `updated_at`='$updatedAt'
             WHERE date=%s", array(
                 $tomorrowDate
             )));
@@ -132,12 +138,6 @@ if (!function_exists('shoudDailyOmenPublish')) {
         }
 
         return 0;
-
-        // return array(
-        //     'cdr ' => $currentDateRow,
-        //     'el ' => $existedLogs,
-        //     'cs ' => $currentStatus
-        // );
     }
 }
 
@@ -173,7 +173,6 @@ if (!function_exists('generateRandomIds')) {
     }
 }
 
-
 /**
  * @param string $str
  * @return string 
@@ -189,4 +188,108 @@ if (!function_exists('_convert_to_number')) {
 
         return $englishNumbersOnly;
     }
+}
+
+
+if (!function_exists('resetDailyOmens')) {
+    function resetDailyOmens($db, $table)
+    {
+        $unusedOmens = $db->get_var($db->prepare("SELECT COUNT(id) FROM $table WHERE selected=%s", array('0')));
+        if (intval($unusedOmens) < 12) {
+            $resetQuery = $db->query($db->prepare(
+                "UPDATE $table SET selected=%s",
+                array('0')
+            ));
+        }
+        return true;
+    };
+}
+
+if (!function_exists('insertDailyOmenPost')) {
+    function insertDailyOmenPost($post_title, $post_content, $post_excerpt, $post_slug = null)
+    {
+        return wp_insert_post(array(
+            'post_type' => 'post',
+            'post_status' => 'publish',
+            'post_name' => $post_slug ?? $post_title,
+            'post_title' => $post_title,
+            'post_name' => $post_title,
+            'post_content' => $post_content,
+            'post_excerpt' => $post_excerpt
+        ));
+    };
+}
+
+if (!function_exists('insertDailyUniqueOmens')) {
+    function insertDailyUniqueOmens($db, $table, $unique_omens_table, $post_id, $omen_type): void
+    {
+        $remainedIdsQuery = $db->get_results($db->prepare(
+            "SELECT id FROM $table WHERE selected=%s",
+            array('0')
+        ));
+        $remainedIds = [];
+        foreach ($remainedIdsQuery as $key => $value) {
+            array_push($remainedIds, $value->id);
+        }
+        $randomMonthsKeys = generateRandomIds($remainedIds);
+        $placeholder = bindINOperatorPlaceholder($randomMonthsKeys);
+        $selector = $omen_type === 'simple_omen' ? 'omen' : '*';
+        $randomOmens = $db->get_results($db->prepare(
+            "SELECT $selector FROM $table WHERE id IN ($placeholder)",
+            $randomMonthsKeys
+        ));
+        $update = $db->query($db->prepare(
+            "UPDATE $table SET selected='1' WHERE id IN ($placeholder)",
+            $randomMonthsKeys
+        ));
+        switch ($omen_type) {
+            case 'simple_omen':
+                $insert = $db->insert($unique_omens_table, array(
+                    'post_id' => $post_id,
+                    'farvardin' => $randomOmens[0]->omen,
+                    'ordibehesht' => $randomOmens[1]->omen,
+                    'khordad' => $randomOmens[2]->omen,
+                    'tir' => $randomOmens[3]->omen,
+                    'mordad' => $randomOmens[4]->omen,
+                    'shahrivar' => $randomOmens[5]->omen,
+                    'mehr' => $randomOmens[6]->omen,
+                    'aban' => $randomOmens[7]->omen,
+                    'azar' => $randomOmens[8]->omen,
+                    'dey' => $randomOmens[9]->omen,
+                    'bahman' => $randomOmens[10]->omen,
+                    'esfand' => $randomOmens[11]->omen,
+                    'createdAt' => date('Y-m-d'),
+                ), array('%d', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s'));
+                break;
+            case 'hafez_omen':
+                $insert = $db->insert($unique_omens_table, array(
+                    'post_id' => $post_id,
+                    'farvardin' => json_encode(_jsonOmenGen($randomOmens, 0)),
+                    'ordibehesht' => json_encode(_jsonOmenGen($randomOmens, 1)),
+                    'khordad' => json_encode(_jsonOmenGen($randomOmens, 2)),
+                    'tir' => json_encode(_jsonOmenGen($randomOmens, 3)),
+                    'mordad' => json_encode(_jsonOmenGen($randomOmens, 4)),
+                    'shahrivar' => json_encode(_jsonOmenGen($randomOmens, 5)),
+                    'mehr' => json_encode(_jsonOmenGen($randomOmens, 6)),
+                    'aban' => json_encode(_jsonOmenGen($randomOmens, 7)),
+                    'azar' => json_encode(_jsonOmenGen($randomOmens, 8)),
+                    'dey' => json_encode(_jsonOmenGen($randomOmens, 9)),
+                    'bahman' => json_encode(_jsonOmenGen($randomOmens, 10)),
+                    'esfand' => json_encode(_jsonOmenGen($randomOmens, 11)),
+                    'createdAt' => date('Y-m-d H:i:s'),
+                ), array('%d', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s'));
+                break;
+        }
+    };
+}
+
+function _jsonOmenGen($omensArray, $index)
+{
+    return array(
+        'url' => $omensArray[$index]->url,
+        'omen' => $omensArray[$index]->omen,
+        'audio_url' => $omensArray[$index]->audio_url,
+        'ghazal' => $omensArray[$index]->ghazal,
+        'anchor_text' => $omensArray[$index]->anchor_text
+    );
 }

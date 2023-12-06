@@ -47,6 +47,33 @@ class SimpleOmen implements DailyOmen
     }
 }
 
+class HafezOmen implements DailyOmen
+{
+    public function registerRestApi(): void
+    {
+        add_action('rest_api_init', function () {
+            register_rest_route(
+                'plugins/v1',
+                'daily_hafez_omen',
+                array(
+                    'methods' =>   WP_REST_SERVER::EDITABLE,
+                    'callback' => "daily_hafez_omen_callback"
+                ),
+                false
+            );
+        });
+    }
+
+    public function addShortCode(): void
+    {
+        add_action('init', function () {
+            if (!shortcode_exists('hafez_horoscope')) {
+                add_shortcode('hafez_horoscope', 'hafezHoroscopeRender');
+            }
+        });
+    }
+}
+
 class ProphetsOmen implements ConstantOmen
 {
     public function addShortCode(): void
@@ -80,6 +107,10 @@ $prophetsOmen->addShortCode();
 
 $coffeeOmen = new CoffeeOmen();
 $coffeeOmen->addShortCode();
+
+$hafezOmen = new HafezOmen();
+$hafezOmen->registerRestApi();
+$hafezOmen->addShortCode();
 
 
 

@@ -43,6 +43,8 @@ class Setup
         define('DOPL_PROPHETS_OMENS_TABLE', 'prophets_omen_tbl');
         define('DOPL_SIMPLE_OMENS_TABLE', 'simple_omen_tbl');
         define('DOPL_UNIQUE_SIMPLE_OMENS_TABLE', 'unique_simple_omen_tbl');
+        define('DOPL_HAFEZ_OMENS_TABLE', 'hafez_omen_tbl');
+        define('DOPL_UNIQUE_HAFEZ_OMENS_TABLE', 'unique_hafez_omen_tbl');
         define('DOPL_COFFEE_OMENS_TABLE', 'coffee_omen_tbl');
     }
 
@@ -72,7 +74,7 @@ class Setup
         });
 
         require_once(DAILYOMENS_INC . 'shortcodes.php');
-        require_once(DAILYOMENS_UTILS . 'simple_daily_omens.php');
+        require_once(DAILYOMENS_UTILS . 'daily_omens.php');
         require_once(DAILYOMENS_UTILS . 'helpers.php');
         require_once(DAILYOMENS_INC . 'omens.php');
         require_once(DAILYOMENS_SITE . 'wp_ajax.php');

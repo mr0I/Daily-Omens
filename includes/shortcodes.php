@@ -29,3 +29,13 @@ if (!function_exists('coffeeOmenRender')) {
         return $content;
     }
 }
+
+if (!function_exists('hafezHoroscopeRender')) {
+    function hafezHoroscopeRender($atts = []): string
+    {
+        ob_start();
+        include(DAILYOMENS_TEMPLATES . 'hafez_horoscope.php');
+        $content = ob_get_clean();
+        return $content;
+    }
+}
