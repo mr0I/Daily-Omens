@@ -2,7 +2,6 @@
 error_reporting(E_ALL & ~E_NOTICE);
 
 require_once(DAILYOMENS_UTILS . 'helpers.php');
-// $constants = require(DHPL_ROOTDIR . 'config/config.php');
 
 
 global $wpdb;
@@ -144,7 +143,6 @@ $selectedOmens = $wpdb->get_results($wpdb->prepare(
             <div>
                 <div class="daily-horoscope-content__description">
                     <p>
-                        <a href="<?= $constants['FIXED_POST_URL'] ?>">فال روزانه</a>
                         به عنوان یکی از روش‌های پیش‌بینی در فرهنگ‌های مختلف رواج دارد. این پیش‌بینی‌ها می‌توانند درباره مسائلی مانند موفقیت در کار، عشق و روابط، سلامتی و... باشند. برخی از افراد به فال روزانه به عنوان یک سنت یا روشی برای به دست آوردن راهنمایی در زندگی اعتقاد دارند و برخی دیگر نیز به آن صرفا به عنوان یک سرگرمی و تفریح نگاه می‌کنند. در هر صورت اگر شما نیز به فال و طالع بیینی علاقه‌مند هستید، با ما همراه باشید تا ببینید امروز چه چیزی پیش روی شما است.
                     </p>
                 </div>

@@ -30,19 +30,18 @@ function daily_simple_omen_callback()
     // Publish the post
     global $wpdb;
     $table = $wpdb->prefix . DOPL_SIMPLE_OMENS_TABLE;
-
-    // reset omens publish loop
-    // $resetOmens = function ($wpdb, $table) {
-    //     $unUsedOmens = $wpdb->get_var($wpdb->prepare("SELECT COUNT(id) FROM $table WHERE selected=%s", array('0')));
-    //     if (intval($unUsedOmens) < 12) {
-    //         $resetQuery = $wpdb->query($wpdb->prepare(
-    //             "UPDATE $table SET selected=%s",
-    //             array('0')
-    //         ));
-    //     }
-    //     return true;
-    // };
-    // $resetOmens($wpdb, $table);
+    // Reset omens publish loop
+    $resetOmens = function ($wpdb, $table) {
+        $unusedOmens = $wpdb->get_var($wpdb->prepare("SELECT COUNT(id) FROM $table WHERE selected=%s", array('0')));
+        if (intval($unusedOmens) < 12) {
+            $resetQuery = $wpdb->query($wpdb->prepare(
+                "UPDATE $table SET selected=%s",
+                array('0')
+            ));
+        }
+        return true;
+    };
+    $resetOmens($wpdb, $table);
 
     $date = getCurrentShamsiDate('l j F Y', null);
     $postTitle = 'فال روزانه' . ' ' . $date;
@@ -72,8 +71,10 @@ function daily_simple_omen_callback()
     wp_set_post_terms($postId, [1605], 'category');
 
     // Generate daily featured image
-    //  $attachmentId = generateUniqueFeaturedImage($postId, $postTitle);
-    //  if ($attachmentId) set_post_thumbnail($postId, intval($attachmentId));
+    require_once(DAILYOMENS_PLUGINS . 'feature_image_generator.php');
+    $featureImage = new Feature_Image($postId, $postTitle);
+    $attachmentId = $featureImage->run();
+    if ($attachmentId) set_post_thumbnail($postId, intval($attachmentId));
 
     // Insert Unique Omens
     $remaindIdsQuery = $wpdb->get_results($wpdb->prepare(

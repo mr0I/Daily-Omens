@@ -34,6 +34,7 @@ class Setup
         define('DAILYOMENS_ROOTURL', plugin_dir_url(__FILE__));
         define('DAILYOMENS_INC', DAILYOMENS_ROOTDIR . 'includes/');
         define('DAILYOMENS_UTILS', DAILYOMENS_ROOTDIR . 'utils/');
+        define('DAILYOMENS_PLUGINS', DAILYOMENS_ROOTDIR . 'plugins/');
         define('DAILYOMENS_TEMPLATES', DAILYOMENS_ROOTDIR . 'site/templates/');
         define('DAILYOMENS_ADMIN', DAILYOMENS_ROOTDIR . 'admin/');
         define('DAILYOMENS_SITE', DAILYOMENS_ROOTDIR . 'site/');

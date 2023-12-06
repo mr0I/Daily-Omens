@@ -2,3 +2,6 @@ metrials
 todos.txt
 env.php
 site/static/js/*
+plugins/I18N/*
+site/static/images/*
+site/static/fonts/*
