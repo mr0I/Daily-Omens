@@ -1,4 +1,6 @@
-<?php defined('ABSPATH') or die('No script kiddies please!'); ?>
+<?php defined('ABSPATH') or die('No script kiddies please!');
+// die('sadad');
+?>
 
 <section class="horoscope">
     <div class="horoscope-content">
@@ -22,24 +24,3 @@
 </section>
 
 <section class="horoscope" id="horoscope_answer_section" style="display: none;"></section>
-
-
-
-<script id='prophets_omen_script'>
-    const PO_SITE_AJAX = {
-        'AJAXURL': '<?= admin_url('admin-ajax.php'); ?>',
-        'SECURITY': '<?= wp_create_nonce('Dnt3dUF8U4FRBNt3'); ?>',
-        "REQUEST_TIMEOUT": "30000",
-        'SUBMIT_BTN_TXT': '<?= esc_html('Prophets online horoscope', 'daily_omens') ?>',
-        'WAITING_TXT': '<?= esc_html('Please Wait...', 'daily_omens') ?>',
-        'PROPHET_PIC_SRC': '<?= MYPH_SITE_IMAGES . 'anbia/prophet_1.png' ?>',
-        'daily_omens_PICTURE': '<?= esc_html('Prophets Horoscope Picture', 'daily_omens') ?>',
-        'HOROSCOPE_RESULT': '<?= esc_html('Horoscope Result:', 'daily_omens') ?>',
-        'LUCKY_DAY_FOR_YOU': '<?= esc_html('Lucky Day for you:', 'daily_omens') ?>',
-        'HOROSCOPE_AGAIN': '<?= esc_html('Horoscope Again', 'daily_omens') ?>',
-    };
-</script>
-<?php
-$pluginVersion = boolval(DOMENS_IS_DEV) ? time() : (get_plugin_data(__FILE__, false))['Version'];
-?>
-<script src="<?= plugin_dir_url(__FILE__) . '../static/js_obfuscated/po_script.js?ver=' . $pluginVersion  ?>" defer></script>

@@ -40,7 +40,7 @@ function daily_simple_omen_callback()
     $postId = insertDailyOmenPost($postTitle, '<p>[simple_horoscope]</p><p>&nbsp;</p>', "فال روزانه $date: امروز چه اتفاقی برای شما می‌افتد؟ امروز ستاره‌ها چه چیزی را برای شما پیش بینی می‌کنند؟ فال روزانه ماه تولد خود را بخوانید و ببنید چه چیزی در انتظار شماست.");
     if (!$postId) {
         $now = current_datetime()->format('H:i:s');
-        error_log("[ $now (local_time)] Simple_Daily_Horoscope Insert Post Error");
+        error_log("[$now - ERROR -  error on insert simple_daily_horoscope post");
         return;
     }
 
@@ -114,7 +114,7 @@ function daily_hafez_omen_callback(WP_REST_Request $req)
     $postId = insertDailyOmenPost($postTitle, '<p>[hafez_horoscope]</p><p>&nbsp;</p>', "فال حافظ روشی سرگرم کننده و جالب برای پیش بینی آینده است. نتایج این فال بر اساس طالع بینی و تفسیر اشعار حافظ، شاعر بزرگ ایرانی، انجام می‌شود. در این پست با فال حافظ روزانه $date بر اساس ماه تولد همراه ما باشید.", $postSlug);
     if (!$postId) {
         $now = current_datetime()->format('H:i:s');
-        error_log("[ $now (local_time)] Hafez_Daily_Horoscope Insert Post Error");
+        error_log("[$now - ERROR -  error on insert hafez_daily_horoscope post");
         return;
     }
 

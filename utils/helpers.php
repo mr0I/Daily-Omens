@@ -283,13 +283,15 @@ if (!function_exists('insertDailyUniqueOmens')) {
     };
 }
 
-function _jsonOmenGen($omensArray, $index)
-{
-    return array(
-        'url' => $omensArray[$index]->url,
-        'omen' => $omensArray[$index]->omen,
-        'audio_url' => $omensArray[$index]->audio_url,
-        'ghazal' => $omensArray[$index]->ghazal,
-        'anchor_text' => $omensArray[$index]->anchor_text
-    );
+if (!function_exists('_jsonOmenGen')) {
+    function _jsonOmenGen($omensArray, $index)
+    {
+        return array(
+            'url' => $omensArray[$index]->url,
+            'omen' => $omensArray[$index]->omen,
+            'audio_url' => $omensArray[$index]->audio_url,
+            'ghazal' => $omensArray[$index]->ghazal,
+            'anchor_text' => $omensArray[$index]->anchor_text
+        );
+    }
 }

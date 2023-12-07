@@ -111,10 +111,3 @@ $coffeeOmen->addShortCode();
 $hafezOmen = new HafezOmen();
 $hafezOmen->registerRestApi();
 $hafezOmen->addShortCode();
-
-
-
-// wp_die(json_encode([
-//     '1' => $simpleOmen->registerRestApi(),
-//     '2' => $prophetsOmen->print()
-// ], JSON_PRETTY_PRINT));

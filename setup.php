@@ -6,7 +6,6 @@ class Setup
     private string $pluginVersion;
     // private static int $count = 0; 
 
-
     public function __construct(string $plugin_version)
     {
         $this->pluginVersion = $plugin_version;
@@ -19,7 +18,7 @@ class Setup
     // }
     public function init(): void
     {
-        error_log('init...</br>');
+        error_log('INFO - init...');
         $this->defineGlobals();
         $this->enqueueScripts();
         $this->setupPlugin();
@@ -56,11 +55,25 @@ class Setup
             if (is_single() || is_page()) {
                 global $post;
                 if (has_shortcode($post->post_content, 'coffee_omen')) {
-                    wp_enqueue_script('daily_omens_coffee_script', DAILYOMENS_SITE_JS . 'coffeeOmen_script.js', array(), $this->pluginVersion, true);
+                    wp_enqueue_script('daily_omens_coffee_script', DAILYOMENS_SITE_JS . 'coffeeOmen_script.js', array('jquery'), $this->pluginVersion, true);
                     wp_localize_script('daily_omens_coffee_script', 'daily_omens_wp_ajax', array(
                         'AJAXURL' => admin_url('admin-ajax.php'),
                         'SECURITY' => wp_create_nonce('YDPagk5TQhIFlePOuPQY'),
                         'REQUEST_TIMEOUT' => 30000
+                    ));
+                }
+                if (has_shortcode($post->post_content, 'prophets_omen')) {
+                    wp_enqueue_script('daily_omens_prophets_script', DAILYOMENS_SITE_JS . 'po_script.js', array('jquery'), $this->pluginVersion, true);
+                    wp_localize_script('daily_omens_prophets_script', 'prophets_omen_wp_ajax', array(
+                        'AJAXURL' => admin_url('admin-ajax.php'),
+                        'SECURITY' => wp_create_nonce('Dnt3dUF8U4FRBNt3'),
+                        'REQUEST_TIMEOUT' => 30000,
+                        'SUBMIT_BTN_TXT' =>  esc_html('Prophets online horoscope', 'daily_omens'),
+                        'WAITING_TXT' => esc_html('Please Wait...', 'daily_omens'),
+                        'daily_omens_PICTURE' => esc_html('Prophets Horoscope Picture', 'daily_omens'),
+                        'HOROSCOPE_RESULT' => esc_html('Horoscope Result:', 'daily_omens'),
+                        'LUCKY_DAY_FOR_YOU' => esc_html('Lucky Day for you:', 'daily_omens'),
+                        'HOROSCOPE_AGAIN' => esc_html('Horoscope Again', 'daily_omens'),
                     ));
                 }
             }
